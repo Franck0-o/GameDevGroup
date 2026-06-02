@@ -16,7 +16,7 @@ A team made of 3 peoples, trying to development a game for an Uni project, its w
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/Franck0-o/GameDevGroup.git
 ```
 
 In the Terminal of the project send this
