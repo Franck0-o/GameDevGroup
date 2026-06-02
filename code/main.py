@@ -22,7 +22,7 @@ class Game:
         self.player = Player((400, 300), 400, self.all_sprites, self.collision_sprites)
 
     def setup(self):
-        map = load_pygame(join('../data','maps','world.tmx'))
+        map = load_pygame(join('data','maps','world.tmx'))
 
         for x,y, image in map.get_layer_by_name('Ground').tiles():
             NonCollisionSprites((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
