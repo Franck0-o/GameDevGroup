@@ -1,7 +1,8 @@
 from settings import *
 from player import Player
-from sprites import CollisionSprites, NonCollisionSprites
+from sprites import *
 from pytmx.util_pygame import load_pygame
+from groups import AllSprites
 
 class Game:
     def __init__(self):
@@ -14,23 +15,27 @@ class Game:
         self.running = True
 
         #groups
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
 
         #sprites
         self.setup()
-        self.player = Player((400, 300), 400, self.all_sprites, self.collision_sprites)
 
     def setup(self):
         map = load_pygame(join('data','maps','world.tmx'))
 
         for x,y, image in map.get_layer_by_name('Ground').tiles():
             NonCollisionSprites((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
+
         for obj in map.get_layer_by_name('Objects'):
             CollisionSprites((obj.x, obj.y), obj.image ,(self.all_sprites, self.collision_sprites))
+
         for collision_surf in map.get_layer_by_name('Collisions'):
             CollisionSprites((collision_surf.x ,collision_surf.y), pygame.Surface((collision_surf.width,collision_surf.height)), self.collision_sprites)
 
+        for obj in map.get_layer_by_name("Entities"):
+            if obj.name == "Player":
+                self.player = Player((obj.x, obj.y), 400, self.all_sprites, self.collision_sprites)
 
 
     def run(self):
@@ -48,7 +53,8 @@ class Game:
             self.all_sprites.update(dt)
 
             #draw
-            self.all_sprites.draw(self.display)
+
+            self.all_sprites.draw(self.player.rect.center)
 
             pygame.display.update()
         pygame.quit()
