@@ -37,6 +37,8 @@ class Game:
             if obj.name == "Player":
                 self.player = Player((obj.x, obj.y), 400, self.all_sprites, self.collision_sprites)
 
+    def hitbox_draw_debug(self):
+        pygame.draw.rect(self.display, (255,0,0) , self.player.hitbox_rect.move(self.all_sprites.offset) , 2)
 
     def run(self):
         while self.running:
@@ -54,7 +56,9 @@ class Game:
 
             #draw
 
+            #just testing
             self.all_sprites.draw(self.player.rect.center)
+            self.hitbox_draw_debug()
 
             pygame.display.update()
         pygame.quit()
