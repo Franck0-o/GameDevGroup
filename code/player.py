@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
         self.state, self.frame_index = "down", 0
         self.image = pygame.transform.scale_by(pygame.image.load(join('images', 'player','down','0.png')).convert_alpha(), 4)
         self.rect = self.image.get_frect(center = pos)
-        self.hitbox_rect = self.rect.inflate(-80, -50)
+        self.hitbox_rect = self.rect.inflate(-90, -65)
         self.display_surface = pygame.display.get_surface()
 
         #Player Movement

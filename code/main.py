@@ -36,6 +36,7 @@ class Game:
         for obj in map.get_layer_by_name("Entities"):
             if obj.name == "Player":
                 self.player = Player((obj.x, obj.y), 400, self.all_sprites, self.collision_sprites)
+                self.gun = Gun(self.player, self.all_sprites)
 
     def hitbox_draw_debug(self):
         pygame.draw.rect(self.display, (255,0,0) , self.player.hitbox_rect.move(self.all_sprites.offset) , 2)
@@ -53,7 +54,6 @@ class Game:
             #update
             self.display.fill('black')
             self.all_sprites.update(dt)
-
             #draw
 
             #just testing
