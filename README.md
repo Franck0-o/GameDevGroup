@@ -8,6 +8,7 @@ A team made of 3 peoples, trying to development a game for an Uni project, its w
 
 - [@Franck0-o](https://www.github.com/Franck0-o)
 - [@VictorZanotoDias](https://www.github.com/VictorZanotoDias)
+- [@carlosesmanhoto](https://www.github.com/carlosesmanhoto)
 
 
 
