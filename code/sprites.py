@@ -17,12 +17,12 @@ class NonCollisionSprites(pygame.sprite.Sprite):
 class Gun(pygame.sprite.Sprite):
     def __init__(self, player, groups):
         self.player = player
-        self.distance = 60
+        self.distance = 30
         self.player_position = pygame.Vector2(1,0)
 
         #Gun sprite
         super().__init__(groups)
-        self.sprite = pygame.image.load(join('images','gun','hand.png'))
+        self.sprite = pygame.image.load(join('images','gun','shotgun.png'))
         self.image = self.sprite
         self.rect = self.image.get_frect(center = self.player.rect.center + self.distance * self.player_position)
 
