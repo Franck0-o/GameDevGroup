@@ -22,21 +22,29 @@ class Game:
         self.setup()
 
     def setup(self):
+        #Here i am importing all sprites and deciding what layer it get
         map = load_pygame(join('data','maps','world.tmx'))
-
+        
+        #Here i do a for loop to get to all sprites in the layer(ground)
         for x,y, image in map.get_layer_by_name('Ground').tiles():
             NonCollisionSprites((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-
+        
+        #Same for the layer(Objects)
         for obj in map.get_layer_by_name('Objects'):
             CollisionSprites((obj.x, obj.y), obj.image ,(self.all_sprites, self.collision_sprites))
 
+        #Same for the layer(Collisions)
         for collision_surf in map.get_layer_by_name('Collisions'):
             CollisionSprites((collision_surf.x ,collision_surf.y), pygame.Surface((collision_surf.width,collision_surf.height)), self.collision_sprites)
 
+        #
         for obj in map.get_layer_by_name("Entities"):
             if obj.name == "Player":
                 self.player = Player((obj.x, obj.y), 400, self.all_sprites, self.collision_sprites)
+                self.gun = Gun(self.player, self.all_sprites)
 
+    def hitbox_draw_debug(self):
+        pygame.draw.rect(self.display, (255,0,0) , self.player.hitbox_rect.move(self.all_sprites.offset) , 2)
 
     def run(self):
         while self.running:
@@ -51,10 +59,11 @@ class Game:
             #update
             self.display.fill('black')
             self.all_sprites.update(dt)
-
             #draw
 
+            #just testing
             self.all_sprites.draw(self.player.rect.center)
+            self.hitbox_draw_debug()
 
             pygame.display.update()
         pygame.quit()
