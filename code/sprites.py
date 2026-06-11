@@ -18,22 +18,22 @@ class Gun(pygame.sprite.Sprite):
     def __init__(self, player, groups):
         self.player = player
         self.distance = 30
-        self.player_position = pygame.Vector2(1,0)
+        self.player_direction= pygame.Vector2(1,0)
 
         #Gun sprite
         super().__init__(groups)
         self.sprite = pygame.image.load(join('images','gun','shotgun.png'))
         self.image = self.sprite
-        self.rect = self.image.get_frect(center = self.player.rect.center + self.distance * self.player_position)
+        self.rect = self.image.get_frect(center = self.player.rect.center + self.distance * self.player_direction)
 
     def get_distance(self):
-        mouse_position = pygame.Vector2(pygame.mouse.get_pos())
-        player_position = pygame.Vector2(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
-        self.player_position = (mouse_position - player_position).normalize()
+        mouse_direction = pygame.Vector2(pygame.mouse.get_pos())
+        player_direction = pygame.Vector2(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        self.player_direction = (mouse_direction - player_direction).normalize()
 
     def rotate_gun(self):
-        angle = degrees(atan2(self.player_position.x, self.player_position.y)) - 90
-        if self.player_position.x > 0:
+        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
+        if self.player_direction.x > 0:
             self.image = pygame.transform.rotozoom(self.sprite, angle, 1)
         else:
 
@@ -43,12 +43,15 @@ class Gun(pygame.sprite.Sprite):
     def update(self, _):
         self.rotate_gun()
         self.get_distance()
-        self.rect.center = self.player.rect.center + self.distance * self.player_position
+        self.rect.center = self.player.rect.center + self.distance * self.player_direction
 
-class bullet(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        self.sprite = pygame.image.load(join('images', 'gun','bullet.png'))
-        self.image = self.sprite
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, surf, pos, direction, groups):
+        super().__init__(groups)
+        self.image = surf
         self.rect = self.image.get_frect(center = pos)
+        self.velocity = 1200
+        self.direction = direction
 
-    
+    def update(self, dt):
+       self.rect.center += self.direction * self.velocity * dt 
