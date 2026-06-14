@@ -1,3 +1,17 @@
+"""
+sprites.py
+==========
+
+Classes de sprite usadas no mundo do jogo (tudo que não é o
+player, que tem seu próprio arquivo player.py).
+
+    CollisionSprites     -> objetos/paredes do mapa que bloqueiam movimento
+    NonCollisionSprites  -> tiles de chão (só visual)
+    Gun                  -> arma que acompanha o player e aponta para o mouse
+    Bullet               -> projétil disparado pela arma
+    Enemy                -> inimigo que persegue o player
+    ShopNPC              -> NPC placeholder da loja (intervalo entre waves)
+"""
 from settings import *
 from math import atan2, degrees
 

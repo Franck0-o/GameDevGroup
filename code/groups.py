@@ -1,3 +1,17 @@
+"""
+groups.py
+=========
+
+AllSprites: grupo de sprites com câmera + ordenação por profundidade.
+
+- Câmera: calcula um offset para que `target_pos` (geralmente o
+  player) fique sempre centralizado na tela.
+- Y-sort: sprites de "chão" (com atributo `ground`, ex: NonCollisionSprites)
+  são desenhados primeiro, sempre atrás de tudo. Os demais sprites
+  são ordenados pelo centro Y do rect — quanto mais para baixo na
+  tela, mais "na frente" é desenhado. Isso dá a ilusão de profundidade
+  (ex: o player passar por trás de uma árvore).
+"""
 from settings import *
 
 class AllSprites(pygame.sprite.Group):

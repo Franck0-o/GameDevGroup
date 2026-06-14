@@ -1,3 +1,15 @@
+"""
+player.py
+=========
+
+O personagem controlado pelo jogador.
+
+Responsabilidades desta classe:
+    - movimento (input + colisão com o mapa)
+    - animação por direção (up/down/left/right)
+    - sistema de vida: 5 corações, dano com cooldown (i-frames)
+      e efeito de "flash branco" quando recebe dano
+"""
 from settings import *
 
 class Player(pygame.sprite.Sprite):
@@ -7,6 +19,9 @@ class Player(pygame.sprite.Sprite):
         self.state, self.frame_index = "down", 0
         self.image = pygame.transform.scale_by(pygame.image.load(join('images', 'player','down','0.png')).convert_alpha(), 4)
         self.rect = self.image.get_frect(center = pos)
+
+        # Hitbox menor que o sprite visual: evita que o player "trave"
+        # em paredes por causa de espaço vazio nas bordas da imagem.
         self.hitbox_rect = self.rect.inflate(-90, -65)
         self.display_surface = pygame.display.get_surface()
 
@@ -44,12 +59,19 @@ class Player(pygame.sprite.Sprite):
                         self.frames[state].append(surf)
 
     def take_damage(self):
+        """
+        Chamado quando um inimigo toca o player.
+
+        Só causa dano se `can_take_damage` for True — isso garante
+        o cooldown de invencibilidade (i-frames) após cada hit,
+        dando tempo do jogador escapar.
+        """
         if self.can_take_damage and not self.is_dead:
             self.health -= 1
             self.can_take_damage = False
             self.damage_time = pygame.time.get_ticks()
 
-            # Start flash effect
+            # Inicia o efeito de flash branco
             self.hit_flash = True
             self.flash_time = pygame.time.get_ticks()
             self.flash_count = 0
@@ -59,6 +81,7 @@ class Player(pygame.sprite.Sprite):
                 self.is_dead = True
 
     def damage_timer(self):
+        """Libera `can_take_damage` quando o cooldown de invencibilidade termina."""
         if not self.can_take_damage:
             current_time = pygame.time.get_ticks()
             if current_time - self.damage_time >= self.damage_cooldown:
